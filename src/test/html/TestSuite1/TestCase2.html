@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="https://www.google.de/" />
+<title>TestCase2</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">TestCase2</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/exist/apps/hsg-shell/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>history.state.gov 3.0 shell</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>xpath=(//a[contains(text(),'1750–1775')])[2]</td>
+	<td>1750–1775</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'1750–1775')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=h1</td>
+	<td>exact:Milestones: 1750–1775</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='foreword']/p[2]</td>
+	<td>Rivalry in Europe, between the French and the British in particular, often influenced the course of events in their North American colonies.In an effort to increase their political and economic power, the British and the French competed to acquire the better share of the available land and control over the new trading opportunities the colonies presented.</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>id=select-chapter</td>
+	<td>Choose one 1750–1775 1776–1783 1784–1800 1801–1829 1830–1860 1861–1865 1866–1898 1899–1913 1914–1920 1921–1936 1937–1945 1945–1952 1953–1960 1961–1968 1969–1976 1977–1980 1981–1988 1989–1992 1993–2000 ... view all</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

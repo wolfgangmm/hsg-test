@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="HsgProject" default="test" xmlns:xdb="http://exist-db.org/ant">
+    <property file="build.properties"/>
+    <property name="instance.uri" value="xmldb:exist://localhost:8080/exist/xmlrpc"/>
+    <property name="instance.tempColl" value="hsg-temp"/>
+    <property name="instance.tempPath" value="/db/${instance.tempColl}"/>
+    <property name="instance.temp" value="${instance.uri}${instance.tempPath}"/>
+    <property name="libs" value="./lib"/>
+    
+    <available file="${libs}/ivy-${ivy.version}.jar" property="ivy.available"/>
+    <available file="${libs}/selenium-server-standalone-${selenium.server.major.version}.${selenium.server.minor.version}.jar" property="selenium.available"/>
+    
+    <!-- **************************************** SERVERS **************************************** -->
+    <!-- **************************************** SERVERS **************************************** -->
+    <!-- **************************************** SERVERS **************************************** -->
+    <target name="selenium.setup" description="Download the Ivy dependency manager" unless="selenium.available">
+        <echo>${ivy_url}</echo>
+        <get src="${selenium.server.url}" dest="${libs}"/>
+    </target>
+    
+    <target name="selenium-start">
+        <echo/>
+        <echo message="************************************************************************************************************"/>
+        <echo message="Starting seleniumRC on ${web.test.selenium.server.host}:${web.test.selenium.server.port} via ${web.test.selenium.server.jar}"/>
+        <echo message="************************************************************************************************************"/>
+        <echo/>
+        <!-- this is a 'known location' for this -->
+        <java jar="lib/selenium-server-standalone-${selenium.server.major.version}.${selenium.server.minor.version}.jar"
+              fork="true"
+              spawn="true">
+        </java>
+
+        <waitfor maxwait="20" maxwaitunit="second">
+            <and>
+                <socket server="localhost" port="4444"/>
+                <http url="http://localhost:4444/selenium-server/core/index.html" errorsBeginAt="404"/>
+            </and>
+        </waitfor>
+    </target>
+
+    <target name="selenium-stop">
+        <echo/>
+        <echo message="************************************************************************************************************"/>
+        <echo message="Stopping seleniumRC"/>
+        <echo message="************************************************************************************************************"/>
+        <echo/>
+        <get taskname="selenium-shutdown"
+             src="http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer"
+             dest="result.txt" ignoreerrors="true"/>
+        <echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected"/>
+    </target>
+    
+    <target name="test" depends="ivy.download, selenium.setup" description="Default target"/>    
+    
+    <target name="prepare">
+        <mkdir dir="${libs}"/>
+    </target>
+      
+    <target name="ivy.setup" description="Download the Ivy dependency manager" unless="ivy.available">
+        <echo>${ivy_url}</echo>
+        <get src="${ivy_url}" dest="${libs}"/>
+    </target>
+    
+    <target name="ivy.download" depends="prepare,ivy.setup" 
+        description="Download eXist JAR files required for deployment" xmlns:ivy="antlib:org.apache.ivy.ant">
+        <!-- Setup IVY download manager -->
+        <path id="ivy.lib.path">
+            <fileset dir="${libs}" includes="ivy*.jar" erroronmissingdir="false"/>
+        </path>
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+        <ivy:retrieve sync="true" pattern="${libs}/[artifact]-[revision](-[classifier]).[ext]"/>
+    </target>    
+</project>
