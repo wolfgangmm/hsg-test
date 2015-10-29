@@ -25,9 +25,9 @@ public class TestCase1 {
     assertEquals("history.state.gov 3.0 shell", driver.getTitle());
     driver.findElement(By.cssSelector("div.col-md-6 > ul > li > ul > li > a")).click();
     assertEquals("Historical Documents", driver.findElement(By.cssSelector("h1")).getText());
-    assertEquals("Truman Administration \n 1945–1952", driver.findElement(By.cssSelector("td > a")).getText());
+    assertEquals("Truman Administration 1945–1952", driver.findElement(By.cssSelector("td > a")).getText().replaceAll("\\r\\n|\\r|\\n", " "));
     driver.findElement(By.cssSelector("td > a")).click();
-    assertEquals("Truman Administration", driver.findElement(By.cssSelector("h1.titleStmt1")).getText());
+    assertEquals("TRUMAN ADMINISTRATION", driver.findElement(By.cssSelector("h1.titleStmt1")).getText());
     assertEquals("General: The United Nations, Volume I", driver.findElement(By.cssSelector("ol > li > a > span")).getText());
     driver.findElement(By.cssSelector("ol > li > a > span")).click();
     assertEquals("Not found", driver.findElement(By.cssSelector("h1")).getText());
