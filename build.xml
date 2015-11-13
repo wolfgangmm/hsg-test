@@ -1,157 +1,244 @@
 <project basedir="." name="HsgTest" default="test" xmlns:xdb="http://exist-db.org/ant">
-    <property file="build.properties"/>
-    <property name="libs" value="./lib"/>
-    <property name="binaries" value="./bin"/>
+	<property file="build.properties" />
+	<property name="libs" value="./lib" />
+	<property name="binaries" value="./bin" />
+	<property name="generated_java_src" value="${basedir}/src/generated-tests/java" />
 
-    <available file="${binaries}/ivy-${ivy.version}.jar" property="ivy.available"/>
-    <available file="${binaries}/selenium-server-standalone-${selenium.server.major.version}.${selenium.server.minor.version}.jar" property="selenium.available"/>
-    <available file="${binaries}/${jmeter.anttask.dist}" property="jmeter.anttask.available"/>
-    <available file="${binaries}/${jmeter.dist}.zip" property="jmeter.available"/>
+	<available file="${binaries}/ivy-${ivy.version}.jar" property="ivy.available" />
+	<available file="${binaries}/selenium-server-standalone-${selenium.server.major.version}.${selenium.server.minor.version}.jar" property="selenium.available" />
+	<available file="${binaries}/${jmeter.anttask.dist}" property="jmeter.anttask.available" />
+	<available file="${binaries}/${jmeter.dist}.zip" property="jmeter.available" />
 
-    <!-- Install tools and dependecies -->
-    <!-- Install tools and dependecies -->
-    <!-- Install tools and dependecies -->
+	<!-- Install tools and dependecies -->
+	<!-- Install tools and dependecies -->
+	<!-- Install tools and dependecies -->
 
-    <target name="prepare">
-        <mkdir dir="${binaries}"/>
-        <mkdir dir="${libs}"/>
-    </target>
+	<target name="prepare">
+		<mkdir dir="${binaries}" />
+		<mkdir dir="${libs}" />
+	</target>
 
-    <target name="ivy.setup" description="Download the Ivy dependency manager" unless="ivy.available">
-        <get src="${ivy_url}" dest="${binaries}"/>
-    </target>
+	<target name="ivy.setup" description="Download the Ivy dependency manager" unless="ivy.available">
+		<get src="${ivy_url}" dest="${binaries}" />
+	</target>
 
-    <target name="selenium.setup" description="Download the Selenium standalone server" unless="selenium.available">
-        <get src="${selenium.server.download.url}" dest="${binaries}"/>
-    </target>
+	<target name="selenium.setup" description="Download the Selenium standalone server" unless="selenium.available">
+		<get src="${selenium.server.download.url}" dest="${binaries}" />
+	</target>
 
-    <target name="jmeter.anttask.setup" description="Download the jmeter anttask" unless="jmeter.anttask.available">
-        <get src="${jmeter.anttask.url}${jmeter.anttask.dist}" dest="${binaries}"/>
-    </target>
+	<target name="jmeter.anttask.setup" description="Download the jmeter anttask" unless="jmeter.anttask.available">
+		<get src="${jmeter.anttask.url}${jmeter.anttask.dist}" dest="${binaries}" />
+	</target>
 
-    <target name="jmeter.setup" description="Download the jmeter anttask" unless="jmeter.available">
-        <get src="${jmeter.url}" dest="${binaries}"/>
-        <unzip dest="${binaries}" src="${binaries}/${jmeter.dist}.zip" overwrite="true"/>
-    </target>
+	<target name="jmeter.setup" description="Download the jmeter anttask" unless="jmeter.available">
+		<get src="${jmeter.url}" dest="${binaries}" />
+		<unzip dest="${binaries}" src="${binaries}/${jmeter.dist}.zip" overwrite="true" />
+	</target>
 
-    <!-- Start and stop selenium standalone server -->
-    <!-- Start adn stop selenium standalone server -->
-    <!-- Start and stop selenium standalone server -->
-    <target name="selenium-start">
-        <echo/>
-        <echo message="************************************************************************************************************"/>
-        <echo message="Starting seleniumRC on ${selenium.server.host}:${selenium.server.port} via selenium-server-standalone-${selenium.server.major.version}.${selenium.server.minor.version}.jar"/>
-        <echo message="************************************************************************************************************"/>
-        <echo/>
-        <!-- this is a 'known location' for this -->
-        <java jar="${binaries}/selenium-server-standalone-${selenium.server.major.version}.${selenium.server.minor.version}.jar"
-              fork="true"
-              spawn="true">
-        </java>
+	<!-- Start and stop selenium standalone server -->
+	<!-- Start adn stop selenium standalone server -->
+	<!-- Start and stop selenium standalone server -->
+	<target name="selenium-start">
+		<echo />
+		<echo message="************************************************************************************************************" />
+		<echo message="Starting seleniumRC on ${selenium.server.host}:${selenium.server.port} via selenium-server-standalone-${selenium.server.major.version}.${selenium.server.minor.version}.jar" />
+		<echo message="************************************************************************************************************" />
+		<echo />
+		<!-- this is a 'known location' for this -->
+		<java jar="${binaries}/selenium-server-standalone-${selenium.server.major.version}.${selenium.server.minor.version}.jar" fork="true" spawn="true">
+		</java>
 
-        <waitfor maxwait="20" maxwaitunit="second">
-            <and>
-                <socket server="${selenium.server.host}" port="${selenium.server.port}"/>
-                <http url="http://${selenium.server.host}:${selenium.server.port}${selenium.server.url}" errorsBeginAt="${selenium.server.errorsBeginAt}"/>
-            </and>
-        </waitfor>
-    </target>
+		<waitfor maxwait="20" maxwaitunit="second">
+			<and>
+				<socket server="${selenium.server.host}" port="${selenium.server.port}" />
+				<http url="http://${selenium.server.host}:${selenium.server.port}${selenium.server.url}" errorsBeginAt="${selenium.server.errorsBeginAt}" />
+			</and>
+		</waitfor>
+	</target>
 
-    <target name="selenium-stop">
-        <echo/>
-        <echo message="************************************************************************************************************"/>
-        <echo message="Stopping seleniumRC"/>
-        <echo message="************************************************************************************************************"/>
-        <echo/>
-        <get taskname="selenium-shutdown"
-             src="http://http://${selenium.server.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDownSeleniumServer"
-             dest="result.txt" ignoreerrors="true"/>
-        <echo taskname="selenium-shutdown" message="Errors during shutdown are expected"/>
-    </target>
+	<target name="selenium-stop">
+		<echo />
+		<echo message="************************************************************************************************************" />
+		<echo message="Stopping seleniumRC" />
+		<echo message="************************************************************************************************************" />
+		<echo />
+		<get taskname="selenium-shutdown" src="http://http://${selenium.server.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDownSeleniumServer" dest="result.txt" ignoreerrors="true" />
+		<echo taskname="selenium-shutdown" message="Errors during shutdown are expected" />
+	</target>
 
-
-    <target name="ivy.download" depends="prepare,ivy.setup"
-            description="Download eXist JAR files required for deployment" xmlns:ivy="antlib:org.apache.ivy.ant">
-        <!-- Setup IVY download manager -->
-        <path id="ivy.lib.path">
-            <fileset dir="${binaries}" includes="ivy*.jar" erroronmissingdir="false"/>
-        </path>
-        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
-        <ivy:retrieve sync="true" pattern="${libs}/[artifact]-[revision](-[classifier]).[ext]"/>
-    </target>
+	<target name="ivy.taskdef">
+		<path id="ivy.lib.path">
+			<fileset dir="${binaries}" includes="ivy*.jar" erroronmissingdir="false" />
+		</path>
+		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
+	</target>
+	<target name="ivy.download" depends="prepare,ivy.setup, ivy.taskdef" description="Download eXist JAR files required for deployment" xmlns:ivy="antlib:org.apache.ivy.ant">
+		<ivy:retrieve sync="true" pattern="${libs}/[artifact]-[revision](-[classifier]).[ext]" />
+	</target>
 
 
-    <target name="compile-tests" description="build java classes" xmlns:ivy="antlib:org.apache.ivy.ant">
-        <ivy:cachepath pathid="main.classpath" conf="compile"/>
+	<target name="compile-main" description="build java classes" depends="ivy.taskdef" xmlns:ivy="antlib:org.apache.ivy.ant">
+		<ivy:cachepath pathid="main.classpath" conf="compile" />
 
-        <mkdir dir="build/test/classes"/>
-        <javac srcdir="src/test/java" destdir="build/test/classes">
-            <classpath refid="main.classpath"/>
-        </javac>
-    </target>
+		<mkdir dir="build/main/classes" />
+		<javac srcdir="src/main/java" destdir="build/main/classes">
+			<classpath>
+				<path refid="main.classpath" />
+			</classpath>
+		</javac>
+	</target>
 
-    <target name="run-selenium-tests" description="run selenium unit tests" xmlns:ivy="antlib:org.apache.ivy.ant" depends="selenium.setup">
-        <echo/>
-        <echo message="************************************************************************************************************"/>
-        <echo message="running selenium unit tests"/>
-        <echo message="************************************************************************************************************"/>
-        <echo/>
-        <antcall target="selenium-start"/>
+	<target name="compile-tests" description="build java classes" depends="ivy.taskdef, compile-main" xmlns:ivy="antlib:org.apache.ivy.ant">
+		<ivy:cachepath pathid="main.classpath" conf="compile" />
 
-        <mkdir dir="${basedir}/build/doc/test/classes"/>
-        <ivy:cachepath pathid="main.classpath" conf="compile"/>
+		<mkdir dir="build/test/classes" />
+		<javac srcdir="src/test/java" destdir="build/test/classes">
+			<classpath>
+				<path refid="main.classpath" />
+				<path path="build/main/classes" />
+			</classpath>
+		</javac>
+		<javac srcdir="${generated_java_src}" destdir="build/test/classes">
+			<classpath>
+				<path refid="main.classpath" />
+				<path path="build/main/classes" />
+			</classpath>
+		</javac>
+		<!-- copy also resource files -->
+		<copy todir="build/test/classes">
+		    <fileset dir="${generated_java_src}"
+		             includes="**/*.xml,**/*.properties,**/*.txt,**/*.ico" />
+		</copy>
 
-        <path id="test.path">
-            <path refid="main.classpath"/>
-            <pathelement location="${basedir}/build/test/classes"/>
-        </path>
-        <!-- run junit tests -->
-        <junit description="run junit tests" printsummary="on">
-            <classpath refid="test.path"/>
+		<!-- TODO a seperate task to compile generated tests? -->
+	</target>
 
-            <formatter type="xml"/>
-            <batchtest fork="yes" todir="${basedir}/build/doc/test/classes">
-                <fileset dir="${basedir}/build/test/classes" includes="**/TestCase*.class"/>
-            </batchtest>
-        </junit>
+	<target name="run-selenium-tests" description="run selenium unit tests" xmlns:ivy="antlib:org.apache.ivy.ant" depends="ivy.taskdef, selenium.setup">
+		<echo />
+		<echo message="************************************************************************************************************" />
+		<echo message="running selenium unit tests" />
+		<echo message="************************************************************************************************************" />
+		<echo />
+		<antcall target="selenium-start" />
 
-        <!-- generate junit reports -->
-        <junitreport description="generate junit reports"
-                     todir="${basedir}/build/doc/test">
-            <fileset dir="${basedir}/build/doc/test/classes">
-                <include name="TEST-*.xml"/>
-            </fileset>
-            <report todir="${basedir}/build/doc/test"/>
-        </junitreport>
+		<mkdir dir="${basedir}/build/doc/test/classes" />
+		<ivy:cachepath pathid="main.classpath" conf="compile" />
 
-        <antcall target="selenium-stop"></antcall>
-    </target>
+		<path id="test.path">
+			<path refid="main.classpath" />
+			<pathelement location="${basedir}/build/test/classes" />
+			<pathelement location="${basedir}/build/main/classes" />
+		</path>
+		<!-- run junit tests -->
+		<junit description="run junit tests" printsummary="on">
+			<classpath refid="test.path" />
+
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${basedir}/build/doc/test/classes">
+				<fileset dir="${basedir}/build/test/classes" includes="**/*.class" />
+			</batchtest>
+		</junit>
+
+		<!-- generate junit reports -->
+		<junitreport description="generate junit reports" todir="${basedir}/build/doc/test">
+			<fileset dir="${basedir}/build/doc/test/classes">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report todir="${basedir}/build/doc/test" />
+		</junitreport>
+
+		<antcall target="selenium-stop">
+		</antcall>
+	</target>
 
 
-    <target name="run-jmeter-tests" description="run jmeter tests" depends="jmeter.anttask.setup, jmeter.setup">
-        <taskdef name="jmeter" classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask" classpath="${binaries}/${jmeter.anttask.dist}"/>
+	<target name="run-jmeter-tests" description="run jmeter tests" depends="jmeter.anttask.setup, jmeter.setup">
+		<taskdef name="jmeter" classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask" classpath="${binaries}/${jmeter.anttask.dist}" />
 
-        <!-- clean up -->
-        <delete file="${basedir}/build/jmeter/HSG-Shell.jtl"/>
+		<!-- clean up -->
+		<delete file="${basedir}/build/jmeter/HSG-Shell.jtl" />
 
-        <jmeter jmeterhome="${binaries}/${jmeter.dist}" resultlog="${basedir}/build/jmeter/HSG-Shell.jtl">
-            <!--
+		<jmeter jmeterhome="${binaries}/${jmeter.dist}" resultlog="${basedir}/build/jmeter/HSG-Shell.jtl">
+			<!--
             <jvmarg value="-Xincgc"/>
             <jvmarg value="-Xmx128m"/>
             -->
-            <!-- SAVE results as xml -->
-            <property name="jmeter.save.saveservice.output_format" value="xml"/>
-            <property name="jmeter.save.saveservice.assertion_results" value="all"/>
+			<!-- SAVE results as xml -->
+			<property name="jmeter.save.saveservice.output_format" value="xml" />
+			<property name="jmeter.save.saveservice.assertion_results" value="all" />
 
-            <testplans dir="${basedir}/src/test/jmeter" includes="*.jmx"/>
-        </jmeter>
+			<testplans dir="${basedir}/src/test/jmeter" includes="HSG-Shell.jmx" />
+		</jmeter>
 
-        <xslt
-            in="${basedir}/build/jmeter/HSG-Shell.jtl"
-            out="${basedir}/build/jmeter/HSG-Shell.html"
-            style="${binaries}/${jmeter.dist}/extras/jmeter-results-report_21.xsl"/>
-    </target>
+		<xslt in="${basedir}/build/jmeter/HSG-Shell.jtl" out="${basedir}/build/jmeter/HSG-Shell.html" style="${binaries}/${jmeter.dist}/extras/jmeter-results-report_21.xsl" />
+	</target>
 
-    <target name="test" depends="ivy.download, selenium.setup, compile-tests, run-selenium-tests, run-jmeter-tests" description="Default target"/>
+	<property name="frus-dir" value="${basedir}/../frus/" />
+
+	<target name="clean">
+		<delete dir="${basedir}/build">
+		</delete>
+	</target>
+
+	<target name="clean-generated-tests">
+		<delete>
+			<fileset dir="${generated_java_src}">
+			</fileset>
+		</delete>
+
+	</target>
+
+	<target name="generate-selenium-tests" xmlns:ivy="antlib:org.apache.ivy.ant" depends="ivy.taskdef,compile-main">
+
+		<ivy:cachepath pathid="main.classpath" conf="compile" />
+
+		<!-- generate tests for FRUS volumes  -->
+		<echo message="Generating tests based on bibliography entries"/>
+		<xslt basedir="${frus-dir}"
+		              destdir="${generated_java_src}/gov/state/history/generated/volume_tests"
+		              style="${basedir}/src/main/xsl/generateBibliographyTest.xsl"
+		              force="true"
+		              includes="bibliography/*.xml"
+		              extension=".java"
+		              filedirparameter="filedir"
+		              filenameparameter="filename"
+			>
+				<factory name="net.sf.saxon.TransformerFactoryImpl"/> 
+		        <classpath refid="main.classpath"/>
+			
+			<chainedmapper>
+				<filtermapper>
+			  		<replacestring from="-" to="_"/>
+				</filtermapper>
+				
+				<mapper type="glob" from="*.xml" to="*.java"/>
+			</chainedmapper>
+		    </xslt>
+
+		<echo message="Generating tests based on volumes"/>
+		<xslt basedir="${frus-dir}"
+		              destdir="${generated_java_src}/gov/state/history/generated/volume_tests"
+                      style="${basedir}/src/main/xsl/generateVolumeTest.xsl"
+		              force="true"
+		              includes="volumes/*.xml"
+		              extension=".java"
+		              filedirparameter="filedir"
+		              filenameparameter="filename"
+			>
+				<factory name="net.sf.saxon.TransformerFactoryImpl"/> 
+		        <classpath refid="main.classpath"/>
+			
+			<chainedmapper>
+				<filtermapper>
+			  		<replacestring from="-" to="_"/>
+				</filtermapper>
+				
+				<mapper type="glob" from="*.xml" to="*.java"/>
+			</chainedmapper>
+		    </xslt>
+
+	</target>
+
+	<target name="test" depends="ivy.download, selenium.setup, compile-tests, run-selenium-tests, run-jmeter-tests" description="Default target" />
 
 </project>
