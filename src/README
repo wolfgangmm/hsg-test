@@ -1,0 +1,9 @@
+test - handwritten tests which should be run during testing
+generated-tests - directory where generated tests are placed; they are also to be run during testing
+main - common code (test helpers etc) and additional code such as examples, templates, experiments;
+       tests contained inside are not intended to be run during automated testing
+
+In subdirectiories:
+*/java - Java source code
+main/resources - files which are being copied or processed during test generation
+main/xsl - XSL transformations used during test generation
