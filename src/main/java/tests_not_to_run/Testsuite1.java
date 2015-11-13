@@ -1,4 +1,4 @@
-package gov.state.history;
+package tests_not_to_run;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
