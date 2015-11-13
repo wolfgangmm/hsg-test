@@ -15,7 +15,7 @@ public class AvaliabilityTestGenerator {
 	private final static String LIST_FILE = "volumes_list.txt";
 	private static final String DOTEXT = ".xml";
 	private static final String JAVA_FILE = "TestAllVolumesAvailable.java";
-	private static final String RESOURCES = "src/resources";
+	private static final String RESOURCES = "src/main/resources";
 	private Path dir;
 	private Path baseOutPath;
 	private Path outPath;
@@ -40,6 +40,7 @@ public class AvaliabilityTestGenerator {
 			List<String> lines = new ArrayList<>(programLines.size()+1);
 			lines.add("package " + packageName + ";");
 			lines.addAll(programLines);
+			Files.createDirectories(outPath);
 			Files.write(outPath.resolve(JAVA_FILE), lines, StandardOpenOption.CREATE);
 		} catch (IOException e) {
 			throw new TestGeneratorException("Error when generating the volumes availability test", e);

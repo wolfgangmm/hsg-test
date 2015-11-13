@@ -4,11 +4,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FrusTestGenerator {
-	//private static final String bibliographyXsl = "src/xsl/generateBibliographyTest.xsl";
-	private static final String bibliographyXsl = "src/xsl/generateBibliographyHTMLUnitTest.xsl";
+	//private static final String bibliographyXsl = "src/main/xsl/generateBibliographyTest.xsl";
+	private static final String bibliographyXsl = "src/main/xsl/generateBibliographyHTMLUnitTest.xsl";
 	private static final String bibliographyDir = "bibliography";
-	private static final String volumeXsl = "src/xsl/generateVolumeTest.xsl";
-	private static final String volumeHUXsl = "src/xsl/generateVolumeHUTest.xsl";
+	private static final String volumeXsl = "src/main/xsl/generateVolumeTest.xsl";
+	private static final String volumeHUXsl = "src/main/xsl/generateVolumeHUTest.xsl";
 	private static final String volumeDir = "volumes";
 	static final String defaultPackage = "gov.state.history.generated";
 	static final String bibliographyPackage = "gov.state.history.generated.bibliography_tests";
