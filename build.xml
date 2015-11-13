@@ -193,50 +193,15 @@
 		<ivy:cachepath pathid="main.classpath" conf="compile" />
 
 		<!-- generate tests for FRUS volumes  -->
-		<echo message="Generating tests based on bibliography entries"/>
-		<xslt basedir="${frus-dir}"
-		              destdir="${generated_java_src}/gov/state/history/generated/volume_tests"
-		              style="${basedir}/src/main/xsl/generateBibliographyTest.xsl"
-		              force="true"
-		              includes="bibliography/*.xml"
-		              extension=".java"
-		              filedirparameter="filedir"
-		              filenameparameter="filename"
-			>
-				<factory name="net.sf.saxon.TransformerFactoryImpl"/> 
-		        <classpath refid="main.classpath"/>
-			
-			<chainedmapper>
-				<filtermapper>
-			  		<replacestring from="-" to="_"/>
-				</filtermapper>
-				
-				<mapper type="glob" from="*.xml" to="*.java"/>
-			</chainedmapper>
-		    </xslt>
+		<java classname="gov.state.history.test_generator.FrusTestGenerator" fork="true" maxmemory="1024m">
+			<classpath>
+				<path path="build/main/classes" />
+				<path refid="main.classpath" />
+			</classpath>
 
-		<echo message="Generating tests based on volumes"/>
-		<xslt basedir="${frus-dir}"
-		              destdir="${generated_java_src}/gov/state/history/generated/volume_tests"
-                      style="${basedir}/src/main/xsl/generateVolumeTest.xsl"
-		              force="true"
-		              includes="volumes/*.xml"
-		              extension=".java"
-		              filedirparameter="filedir"
-		              filenameparameter="filename"
-			>
-				<factory name="net.sf.saxon.TransformerFactoryImpl"/> 
-		        <classpath refid="main.classpath"/>
-			
-			<chainedmapper>
-				<filtermapper>
-			  		<replacestring from="-" to="_"/>
-				</filtermapper>
-				
-				<mapper type="glob" from="*.xml" to="*.java"/>
-			</chainedmapper>
-		    </xslt>
-
+			<arg path="${frus-dir}" />
+			<arg path="${generated_java_src}" />
+		</java>
 	</target>
 
 	<target name="test" depends="ivy.download, selenium.setup, compile-tests, run-selenium-tests, run-jmeter-tests" description="Default target" />
