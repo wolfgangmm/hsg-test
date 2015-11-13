@@ -1,5 +1,6 @@
 <project basedir="." name="HsgTest" default="test" xmlns:xdb="http://exist-db.org/ant">
 	<property file="build.properties" />
+	<property file="test.properties" />
 	<property name="libs" value="./lib" />
 	<property name="binaries" value="./bin" />
 	<property name="generated_java_src" value="${basedir}/src/generated-tests/java" />
@@ -119,7 +120,7 @@
 		<echo message="running selenium unit tests" />
 		<echo message="************************************************************************************************************" />
 		<echo />
-		<antcall target="selenium-start" />
+		<!--<antcall target="selenium-start" />-->
 
 		<mkdir dir="${basedir}/build/doc/test/classes" />
 		<ivy:cachepath pathid="main.classpath" conf="compile" />
@@ -147,8 +148,7 @@
 			<report todir="${basedir}/build/doc/test" />
 		</junitreport>
 
-		<antcall target="selenium-stop">
-		</antcall>
+		<!--<antcall target="selenium-stop"/>-->
 	</target>
 
 

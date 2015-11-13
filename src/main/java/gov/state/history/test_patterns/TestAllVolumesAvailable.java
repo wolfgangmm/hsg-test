@@ -22,10 +22,12 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
 
+import gov.state.history.test_utils.HSGUtils;
+
 @RunWith(Parameterized.class)
 public class TestAllVolumesAvailable {
 	private final static String LIST_FILE = "volumes_list.txt";
-	private String baseUrl = "http://localhost:8080/exist/apps/hsg-shell/historicaldocuments/";
+	private String directoryUrl;
 	private WebClient wc;
 	private String docId;
 
@@ -68,6 +70,7 @@ public class TestAllVolumesAvailable {
 
 	@Before
 	public void setUp() throws Exception {
+		directoryUrl = HSGUtils.getApplicationUrl() + "/historicaldocuments/";
 		wc = new WebClient();
 	}
 
@@ -78,7 +81,9 @@ public class TestAllVolumesAvailable {
 
 	@Test
 	public void checkStatusCode() throws Exception {
-		WebRequest req = new WebRequest(new URL(baseUrl + docId));
+		System.out.println("base_url = " + HSGUtils.getApplicationUrl());
+		
+		WebRequest req = new WebRequest(new URL(directoryUrl + docId));
 		WebResponse resp = wc.loadWebResponse(req);
 		assertThat(resp.getStatusCode()).isEqualTo(200);
 	}

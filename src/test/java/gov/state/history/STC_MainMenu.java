@@ -7,18 +7,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import gov.state.history.test_utils.AbstractSeleniumTest;
+import gov.state.history.test_utils.HSGUtils;
 
 /**
  * @author Patryk Czarnik <patryk@patrykczarnik.net>
  * Tests integrity of the HSG main menu. 
  */
 public class STC_MainMenu extends AbstractSeleniumTest {
-	//private String baseUrl = "http://localhost:8080/exist/apps/hsg-shell";
-	private String baseUrl = "http://192.168.178.25:8080/exist/apps/hsg-shell";
-
 	@Test @Ignore
 	public void testHomeButton() throws Exception {
-		driver.get(baseUrl + "/open");
+		driver.get(HSGUtils.getApplicationUrl() + "/open");
 
 		WebElement homeLink = driver.findElement(
 				By.xpath("//div[@id='navbar-collapse-1']/ul/li[1]//a"));
@@ -29,7 +27,7 @@ public class STC_MainMenu extends AbstractSeleniumTest {
 
 	@Test @Ignore
 	public void testMainMenuNoBack() throws Exception {
-		driver.get(baseUrl + "/open");
+		driver.get(HSGUtils.getApplicationUrl() + "/open");
 
 		WebElement homeLink = driver.findElement(
 				By.xpath("//div[@id='navbar-collapse-1']/ul/li[1]//a"));
@@ -41,7 +39,7 @@ public class STC_MainMenu extends AbstractSeleniumTest {
 
 	@Test
 	public void testMainMenuBack() throws Exception {
-		driver.get(baseUrl + "/open");
+		driver.get(HSGUtils.getApplicationUrl() + "/open");
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		checkMainMenu(true);
 	}

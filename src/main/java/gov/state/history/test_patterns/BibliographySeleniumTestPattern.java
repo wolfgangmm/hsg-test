@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.*;
 import org.openqa.selenium.*;
 import gov.state.history.test_utils.AbstractSeleniumTest;
+import gov.state.history.test_utils.HSGUtils;
 
 /**
  * @author Patryk Czarnik <patryk@patrykczarnik.net>
@@ -11,7 +12,8 @@ import gov.state.history.test_utils.AbstractSeleniumTest;
  * These tests use Selenium as HTTP client side.
  */
 public class BibliographySeleniumTestPattern extends AbstractSeleniumTest { 
-  private String mainUrl = "http://localhost:8080/exist/apps/hsg-shell/historicaldocuments/frus1952-54v01p2";
+  private String documentId = "frus1952-54v01p2";
+  private String mainUrl = HSGUtils.getApplicationUrl() + "/historicaldocuments/" + documentId;
 
   @Test
   public void mainTest() {

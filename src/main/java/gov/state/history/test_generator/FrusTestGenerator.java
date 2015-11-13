@@ -71,8 +71,8 @@ public class FrusTestGenerator {
 		AvaliabilityTestGenerator atg = new AvaliabilityTestGenerator(dir, outPath, defaultPackage);
 		atg.generateAvailabilityTest();
 		GeneratorUsingXsl xslGen = new GeneratorUsingXsl(volumeXsl, dir, outPath, volumePackage);
-		//xslGen.processAllFiles();
-		xslGen = new GeneratorUsingXsl(volumeHUXsl, dir, outPath, volumeHUPackage);
+		xslGen.processAllFiles();
+		//xslGen = new GeneratorUsingXsl(volumeHUXsl, dir, outPath, volumeHUPackage);
 		//xslGen.processAllFiles();
 	}
 }

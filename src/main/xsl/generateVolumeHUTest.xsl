@@ -32,6 +32,8 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
 
+import gov.state.history.test_utils.HSGUtils;
+
 </xsl:text>
 	
 		<xsl:text>public class </xsl:text>
@@ -50,7 +52,8 @@ import com.gargoylesoftware.htmlunit.WebResponse;
 	
 	<xsl:template name="field-declarations"><![CDATA[
   private WebClient wc;
-  private String mainUrl = "]]><xsl:value-of select="concat($baseurl, 'historicaldocuments/', $document-id)"/><![CDATA[";
+  private String documentId = "]]><xsl:value-of select="$document-id"/><![CDATA[";
+  private String mainUrl = HSGUtils.getApplicationUrl() + "/historicaldocuments/" + documentId;
 ]]></xsl:template>
 
 	<xsl:template name="setup"><![CDATA[

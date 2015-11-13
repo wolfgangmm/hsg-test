@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.*;
 import org.openqa.selenium.*;
 import gov.state.history.test_utils.AbstractSeleniumTest;
+import gov.state.history.test_utils.HSGUtils;
 
 </xsl:text>
 	
@@ -40,7 +41,8 @@ import gov.state.history.test_utils.AbstractSeleniumTest;
 	
 	
 	<xsl:template name="field-declarations"><![CDATA[
-  private String mainUrl = "]]><xsl:value-of select="concat($baseurl, 'historicaldocuments/', $document-id)"/><![CDATA[";
+  private String documentId = "]]><xsl:value-of select="$document-id"/><![CDATA[";
+  private String mainUrl = HSGUtils.getApplicationUrl() + "/historicaldocuments/" + documentId;
 ]]></xsl:template>
 
 	<xsl:template name="MainTest">
