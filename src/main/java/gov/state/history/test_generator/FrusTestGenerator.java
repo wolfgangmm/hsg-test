@@ -16,7 +16,7 @@ public class FrusTestGenerator {
 	static final String volumeHUPackage = "gov.state.history.generated.volume_hu_tests";
 	private final String frusBaseDir;
 	private final String outDir;
-
+	
 	public FrusTestGenerator(String frusBaseDir, String outDir) {
 		this.frusBaseDir = frusBaseDir;
 		this.outDir = outDir;
@@ -60,16 +60,19 @@ public class FrusTestGenerator {
 	private void generateForBibliography() throws TestGeneratorException {
 		Path dir = Paths.get(frusBaseDir, bibliographyDir);
 		Path outPath = Paths.get(outDir);
-		GeneratorUsingXsl xslGen = new GeneratorUsingXsl(bibliographyXsl, dir, outPath, bibliographyPackage);
-		xslGen.processAllFiles();
+		//GeneratorUsingXsl xslGen = new GeneratorUsingXsl(bibliographyXsl, dir, outPath, bibliographyPackage);
+		//xslGen.processAllFiles();
 	}
 
 	private void generateForVolumes() throws TestGeneratorException {
 		Path dir = Paths.get(frusBaseDir, volumeDir);
 		Path outPath = Paths.get(outDir);
+		
+		AvaliabilityTestGenerator atg = new AvaliabilityTestGenerator(dir, outPath, defaultPackage);
+		atg.generateAvailabilityTest();
 		GeneratorUsingXsl xslGen = new GeneratorUsingXsl(volumeXsl, dir, outPath, volumePackage);
-		xslGen.processAllFiles();
+		//xslGen.processAllFiles();
 		xslGen = new GeneratorUsingXsl(volumeHUXsl, dir, outPath, volumeHUPackage);
-		xslGen.processAllFiles();
+		//xslGen.processAllFiles();
 	}
 }
