@@ -3,3 +3,4 @@ bin/*
 build/*
 nbproject/*
 src/generated-tests/java/*
+.ant-targets-build.xml
