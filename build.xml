@@ -1,4 +1,4 @@
-<project basedir="." name="HsgTest" default="test" xmlns:xdb="http://exist-db.org/ant">
+<project basedir="." name="HsgTest" default="help" xmlns:xdb="http://exist-db.org/ant">
 	<property file="build.properties" />
 	<property file="test.properties" />
 	
@@ -22,6 +22,18 @@
 	<available file="${binaries}/${jmeter.anttask.dist}" property="jmeter.anttask.available" />
 	<available file="${binaries}/${jmeter.dist}.zip" property="jmeter.available" />
 
+	<target name="help">
+		<echo>hsg-test</echo>
+		<echo>"ant setup" downloads all required tools; it should be invoked after the project checkout</echo>
+		<echo>"ant generate-frus-tests" generates (or recreates) tests based on FRUS volumes.</echo>
+		<echo>"ant compile-tests" builds test classes</echo>
+		<echo>"ant test" runs all tests</echo>
+		<echo>"ant run-junit-tests" runs only JUnit tests (including Selenium tests)</echo>
+		<echo>"ant run-jmeter-tests" runs only JMeter tests</echo>
+		<echo>"ant clean" deletes all compiled classes and old test reports, but not generated test sources</echo>
+		<echo>"ant clean-generated-tests" deletes generated test sources</echo>
+	</target>
+	
 	<!-- Install tools and dependecies -->
 
 	<target name="prepare">
