@@ -1,4 +1,4 @@
-<project basedir="." name="HsgTest" default="help" xmlns:xdb="http://exist-db.org/ant">
+<project basedir="." name="HsgTest" default="noop" xmlns:xdb="http://exist-db.org/ant">
 	<property file="build.properties" />
 	<property file="test.properties" />
 	
@@ -224,4 +224,6 @@
 		<delete dir="${build}"/>
 	</target>
 
+	<!-- Do nothing gets called from hsg-project 'ant all' -->
+	<target name="noop"/>
 </project>
