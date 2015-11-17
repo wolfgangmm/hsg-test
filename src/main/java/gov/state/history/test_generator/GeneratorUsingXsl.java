@@ -62,7 +62,8 @@ public class GeneratorUsingXsl {
 	
 	private void processOneFile(Path file) throws IOException {
 		String fileName = file.getFileName().toString();
-		String className = "TestCase_"
+		// "Generated Selenium Test Case"
+		String className = "GSTC_"
 				+ fileName.replace("."+inExt, "").replace('-', '_');
 		String outFileName = className + "." + outExt;
 		

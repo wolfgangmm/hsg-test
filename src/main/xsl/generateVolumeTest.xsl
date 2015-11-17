@@ -13,7 +13,7 @@
 	<xsl:param name="package-name" select="'generated.volume_tests'" />
 	<xsl:param name="class-name" select="translate($document-id, '-', '_')"/>
 	
-	<xsl:variable name="document-id" select="volume/@id"/>
+	<xsl:variable name="document-id" select="string(/tei:TEI/tei:teiHeader/tei:fileDesc/tei:publicationStmt/tei:idno[@type='frus'])"/>
 
 	<xsl:template match="/">	
 	<xsl:text>package </xsl:text><xsl:value-of select="$package-name"/><xsl:text>;</xsl:text>
