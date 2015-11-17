@@ -152,12 +152,15 @@
 			<pathelement location="${main_classes}" />
 		</path>
 		<!-- run junit tests -->
-		<junit description="run junit tests" printsummary="on">
+		<junit xmlns:if="ant:if" description="run junit tests" printsummary="on">
 			<classpath refid="test.path" />
 
 			<formatter type="xml" />
 			<batchtest fork="yes" todir="${junit_reports}">
-				<fileset dir="${test_classes}" includes="**/*.class" />
+				<!-- excluding GSTC - generated selenium test cases - because they take too much time -->
+				<fileset dir="${test_classes}" includes="**/*.class" excludes="**/GSTC*.class" />
+				<fileset if:set="run_all_generated_tests" dir="${test_classes}" includes="**/GSTC*.class" />
+
 			</batchtest>
 		</junit>
 
