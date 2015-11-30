@@ -23,16 +23,18 @@ public class STC_HistoricalDocumentsLeftPanel extends AbstractSeleniumTest {
 	}
 	
 	/**
-	 * Tests a few example links  to volumes from the left panel select field (options of #select-volume).
+	 * Tests a few example links to volumes from the left panel select field (options of #select-volume).
 	 */
 	@Test
 	public void testVolumeLinks() throws Exception {
+		final int INSIDE = 25;
+		
 		/** Left panel contains a select field #select-volume with a large number
 		    of options - for subsequent FRUS volumes; the following table
 		    defines positions for which a test will be performed.
 		    Negative indexes are counted from the end of the list (-1 is the last option). */
-		int[] volumeOptionsToCheck = {0, 1, 25, -1};
-				
+		int[] volumeOptionsToCheck = {0, 1, INSIDE, -1};
+		
 		for(int i : volumeOptionsToCheck) {
 			WebElement selectVolume = driver.findElement(By.id("select-volume"));
 			List<WebElement> options = selectVolume.findElements(By.tagName("option"));
@@ -40,9 +42,12 @@ public class STC_HistoricalDocumentsLeftPanel extends AbstractSeleniumTest {
 
 			if(i < 0)
 				i = options.size() + i;
+			assertThat(options.size())
+				.overridingErrorMessage("Expected at least %d options within #select-volume, but was %d", INSIDE, options.size())
+				.isGreaterThanOrEqualTo(INSIDE);
 			options.get(i).click();
 			basicPageVerification("volume entry entered from #select-volume option no "+i);
-			System.out.println(driver.getCurrentUrl());
+			//System.out.println(driver.getCurrentUrl());
 			driver.navigate().back();
 		}
 	}
@@ -56,7 +61,7 @@ public class STC_HistoricalDocumentsLeftPanel extends AbstractSeleniumTest {
 	}
 	
 	/**
-	 * This test verifies all the links to adminstration sites from the left panel (#select-administration select field).
+	 * This test verifies all the links to administration sites from the left panel (#select-administration select field).
 	 */
 	@Test
 	public void testAllAdministrationLinks() throws Exception {
